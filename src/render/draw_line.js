@@ -30,6 +30,7 @@ module.exports = function drawLine(painter: Painter, sourceCache: SourceCache, l
 
     for (const coord of coords) {
         const tile = sourceCache.getTile(coord);
+        if (!tile) continue;
         const bucket: ?LineBucket = (tile.getBucket(layer): any);
         if (!bucket) continue;
 

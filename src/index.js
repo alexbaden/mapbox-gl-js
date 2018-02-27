@@ -18,6 +18,15 @@ const Point = require('@mapbox/point-geometry');
 const config = require('./util/config');
 const rtlTextPlugin = require('./source/rtl_text_plugin');
 
+// mapboxgl.Painter = require('./render/painter')
+const ImageSource = require('./source/image_source');
+const getImage = ajax.getImage;
+const util = {getImage, browser};
+const Coordinate = require('./geo/coordinate');
+const RasterBoundsArray = require('./data/array_types');
+// const Buffer = require('./data/buffer');
+const VertexArrayObject = require('./render/vertex_array_object');
+
 module.exports = {
     version,
     supported,
@@ -38,6 +47,13 @@ module.exports = {
     LngLatBounds,
     Point,
     config,
+
+    ImageSource,
+    util,
+    Coordinate,
+    RasterBoundsArray,
+    // Buffer,
+    VertexArrayObject,
 
     /**
      * Gets and sets the map's [access token](https://www.mapbox.com/help/define-access-token/).

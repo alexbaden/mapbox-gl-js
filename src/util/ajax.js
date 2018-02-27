@@ -92,29 +92,43 @@ exports.getJSON = function(requestParameters: RequestParameters, callback: Callb
     return xhr;
 };
 
+function base64ToArrayBuffer (base64) { // from SO: http://bit.ly/2fGowUT
+    var binaryString =  window.atob(base64);
+    var len = binaryString.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
 exports.getArrayBuffer = function(requestParameters: RequestParameters, callback: Callback<{data: ArrayBuffer, cacheControl: ?string, expires: ?string}>) {
-    const xhr = makeRequest(requestParameters);
-    xhr.responseType = 'arraybuffer';
-    xhr.onerror = function() {
-        callback(new Error(xhr.statusText));
-    };
-    xhr.onload = function() {
-        const response: ArrayBuffer = xhr.response;
-        if (response.byteLength === 0 && xhr.status === 200) {
-            return callback(new Error('http status 200 returned without content.'));
-        }
-        if (xhr.status >= 200 && xhr.status < 300 && xhr.response) {
-            callback(null, {
-                data: response,
-                cacheControl: xhr.getResponseHeader('Cache-Control'),
-                expires: xhr.getResponseHeader('Expires')
-            });
-        } else {
-            callback(new AJAXError(xhr.statusText, xhr.status, requestParameters.url));
-        }
-    };
-    xhr.send();
-    return xhr;
+    if (url.slice(0, 22) === "data:image/png;base64,") {
+        return callback(null, base64ToArrayBuffer(url.slice(22)));
+    } else {
+        const xhr = makeRequest(requestParameters);
+        xhr.responseType = 'arraybuffer';
+        xhr.onerror = function() {
+            callback(new Error(xhr.statusText));
+        };
+        xhr.onload = function() {
+            const response: ArrayBuffer = xhr.response;
+            if (response.byteLength === 0 && xhr.status === 200) {
+                return callback(new Error('http status 200 returned without content.'));
+            }
+            if (xhr.status >= 200 && xhr.status < 300 && xhr.response) {
+                callback(null, {
+                    data: response,
+                    cacheControl: xhr.getResponseHeader('Cache-Control'),
+                    expires: xhr.getResponseHeader('Expires')
+                });
+            } else {
+                callback(new AJAXError(xhr.statusText, xhr.status, requestParameters.url));
+            }
+        };
+        xhr.send();
+        return xhr;
+    }
 };
 
 function sameOrigin(url) {

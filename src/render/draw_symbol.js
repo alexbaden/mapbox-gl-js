@@ -75,6 +75,7 @@ function drawLayerSymbols(painter, sourceCache, layer, coords, isText, translate
 
     for (const coord of coords) {
         const tile = sourceCache.getTile(coord);
+        if (!tile) continue;
         const bucket: SymbolBucket = (tile.getBucket(layer): any);
         if (!bucket) continue;
         const buffers = isText ? bucket.text : bucket.icon;
