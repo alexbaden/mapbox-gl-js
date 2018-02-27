@@ -103,6 +103,7 @@ function base64ToArrayBuffer (base64) { // from SO: http://bit.ly/2fGowUT
 }
 
 exports.getArrayBuffer = function(requestParameters: RequestParameters, callback: Callback<{data: ArrayBuffer, cacheControl: ?string, expires: ?string}>) {
+    const url = requestParameters.url;
     if (url.slice(0, 22) === "data:image/png;base64,") {
         return callback(null, base64ToArrayBuffer(url.slice(22)));
     } else {

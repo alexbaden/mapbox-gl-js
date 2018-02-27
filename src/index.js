@@ -20,6 +20,7 @@ const rtlTextPlugin = require('./source/rtl_text_plugin');
 
 // mapboxgl.Painter = require('./render/painter')
 const ImageSource = require('./source/image_source');
+const ajax = require('./util/ajax');
 const getImage = ajax.getImage;
 const util = {getImage, browser};
 const Coordinate = require('./geo/coordinate');
