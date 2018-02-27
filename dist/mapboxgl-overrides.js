@@ -43,10 +43,10 @@
         // in the new TileCoord() call below. So I'm making sure zoom is at
         // least 0 to combat this assert. Another option is to remove the
         // new TileCoord() call below as I'm not exactly sure we need it.
-        centerCoord.zoom = Math.max(centerCoord.zoom, 0);
+        // centerCoord.zoom = Math.max(centerCoord.zoom, 0);
 
         this.minzoom = this.maxzoom = centerCoord.zoom;
-        this.coord = new TileCoord(centerCoord.zoom, centerCoord.column, centerCoord.row);
+        // this.coord = new TileCoord(centerCoord.zoom, centerCoord.column, centerCoord.row);
         this._tileCoords = cornerZ0Coords.map(function (coord) {
             var zoomedCoord = coord.zoomTo(centerCoord.zoom);
             return new Point(Math.round((zoomedCoord.column - centerCoord.column) * EXTENT), Math.round((zoomedCoord.row - centerCoord.row) * EXTENT));
